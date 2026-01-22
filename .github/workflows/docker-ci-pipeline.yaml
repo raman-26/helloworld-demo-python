@@ -20,7 +20,7 @@ jobs:
         run: docker ps
 
       - name: sleep
-        run: run sleep 20
+        run: sleep 20
         
       - name: Curl output
         run: curl -f http://localhost:8080
