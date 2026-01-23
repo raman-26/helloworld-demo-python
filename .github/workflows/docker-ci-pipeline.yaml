@@ -42,5 +42,32 @@ jobs:
 
       - name: Container cleanup
         run: docker rm -f python-app 
-      
+        
+  k8scd-job:
+    needs: dockerci-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v6
+      - name: start minikube
+        uses: medyagh/setup-minikube@latest
+      - name: Test minikube
+        run: kubectl get pods -A
+      - name: Apply yaml files
+        run: |
+          kubectl apply -f k8s/.
+          kubectl config set-context --current --namespace=python-app
+          kubectl wait --for=condition=ready pod -l app=helloworld
+      - name: Get status deployments
+        run: |
+          kubectl get ns
+          kubectl get deploy,service -n python-app
+      - name: Test service URLs
+        run: |
+          minikube service list
+          minikube service helloworld-service --url
+          echo -n "------------------opening the service------------------"
+          curl $(minikube service helloworld-service --url)/version
+        
+        
  
