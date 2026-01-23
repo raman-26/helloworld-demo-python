@@ -5,7 +5,7 @@ on:
     - CONTRIBUTING.md
     - README.md
     - LICENSE
-    - .github/workflows/*
+    
 jobs:
   dockerci-job:
     runs-on: ubuntu-latest
