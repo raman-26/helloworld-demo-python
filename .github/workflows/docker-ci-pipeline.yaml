@@ -56,7 +56,7 @@ jobs:
       - name: Apply yaml files
         run: |
           kubectl apply -f k8s/.
-          kubectl config set-context --current --namespace=python-app
+          kubectl config set-context --current
           kubectl wait --for=condition=ready pod -l app=helloworld
       - name: Get status deployments
         run: |
